@@ -1,0 +1,87 @@
+body {
+    background-color: lightgreen;
+    background-image: url(../images/background.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+h1 {
+    font-family: "Papyrus", fantasy;
+    font-weight: bold;
+    font-size: 6em;
+    margin: 0 auto;
+    text-align: center;
+}
+
+hr {
+    border: 2px solid #000;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.paw-print {
+    width: 150px;
+    height: 150px;
+    vertical-align: middle;
+    margin-left: 50px;
+}
+
+.container {
+    text-align: center;
+    margin-top: 25px;
+    border: 2px solid #000;
+    padding: 10px;
+    background-color: #f9f9f9;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label {
+    display: block;
+}
+
+input[type="text"],
+input[type="password"] {
+    margin: 5px 0;
+    padding: 5px;
+    width: 200px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@keyframes moveDawg {
+    0% {
+        left: -100px;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.moving-dawg {
+    position: absolute;
+    top: 100;
+    left: -100px;
+    animation: moveDawg 10s linear infinite;
+}
