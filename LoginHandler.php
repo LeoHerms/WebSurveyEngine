@@ -16,8 +16,8 @@ $userdata = $store_db->getUser($email);
 $store_db->disconnect();
 
 
-if (!($userdata["email"] == $email && $userdata["password"] == $password)) {
-    $_SESSION["login_error"] = "Invalid email or password.";
+if (!($userdata["email"] == $email && password_verify($password, $userdata["password"]))) {
+    $_SESSION["login_error"] = "Invalid email or password. DEBUG: email: $email, password: $password, email in db: " . $userdata["email"] . ", password in db: " . $userdata["password"];
     header("Location: Home.php");
     exit;
 }

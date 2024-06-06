@@ -36,9 +36,9 @@ if ($exists) {
 $isAdmin = false; // By default, users are not admins
 
 // Store user data
-// $password_hashed = password_hash($password, PASSWORD_DEFAULT);  // Hash password for security
+$password_hashed = password_hash($password, PASSWORD_DEFAULT);  // Hash password for security
 $store_db->connect();
-$result = $store_db->addUser($email, $password, $isAdmin);
+$result = $store_db->addUser($email, $password_hashed, $isAdmin);
 $store_db->disconnect();
 
 if (!$result) {

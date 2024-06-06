@@ -4,7 +4,7 @@ class EngineDB {
     private $servername = "localhost";
     private $username = "root";
     private $password = "";
-    private $dbname = "surveydb";
+    private $dbname = "enginedb";
     private $db;
 
     function connect() {
@@ -57,10 +57,22 @@ class EngineDB {
     }
 
     function addUser($email, $password, $isAdmin) {
-        $sql = "INSERT INTO entity_user (email, password, isAdmin) VALUES ('$email', '$password', $isAdmin)";
-        if ($this->db->query($sql) === TRUE) {
+        $sql = "INSERT INTO entity_user (email, password, is_admin) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($sql);
+        if ($stmt === false) {
+            // Handle error
+            return false;
+        }
+
+        // Bind the parameters
+        $stmt->bind_param("ssi", $email, $password, $isAdmin);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            $stmt->close();
             return true;
         } else {
+            $stmt->close();
             return false;
         }
     }

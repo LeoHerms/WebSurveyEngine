@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,11 +19,11 @@
     </script>
 </head>
 <body>
-    <h1>Create Your Survey Dawg Account</h1>
+    <h1>Create Your Account</h1>
     <div class="container">
         <form action="CreateAccountHandler.php" method="post">
             <label for="email">E-mail:</label>
-            <input type="text" id="email" name="email" required>
+            <input type="email" id="email" name="email" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             <input type="submit" value="Register">
@@ -35,6 +39,12 @@
             echo "<p>If you are not redirected, <a href='Home.php'>click here</a>.</p>";
             echo "<script>redirectToLogin();</script>"; // Call the redirect function
             unset($_SESSION['register_success']);
+        } 
+        else if (isset($_SESSION['register_error'])){
+            echo "Error creating acount<br> <br>";
+            echo "<p>You will be redirected to the login page shortly.</p>";
+            echo "<script>redirectToLogin();</script>"; // Call the redirect function
+            unset($_SESSION['register_error']);
         }
         ?>
     </div>
