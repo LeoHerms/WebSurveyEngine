@@ -19,7 +19,7 @@
     <div class="container">
         <form action="CreateAccountHandler.php" method="post">
             <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="text" id="email" name="email" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             <input type="submit" value="Register">
@@ -37,6 +37,10 @@
             unset($_SESSION['register_success']);
         }
         ?>
+    </div>
+
+    <div class="gif-container">
+            <img src="images/dawg.gif" alt="Moving Dawg" class="moving-dawg">
     </div>
 </body>
 </html>

@@ -4,7 +4,7 @@ class EngineDB {
     private $servername = "localhost";
     private $username = "root";
     private $password = "";
-    private $dbname = "survey_dawg";
+    private $dbname = "surveydb";
     private $db;
 
     function connect() {
@@ -37,7 +37,7 @@ class EngineDB {
     }
 
     function checkUserExists($email) {
-        $sql = "SELECT * FROM users WHERE email = '$email'";
+        $sql = "SELECT * FROM entity_user WHERE email = '$email'";
         $result = $this->db->query($sql);
         if ($result->num_rows > 0) {
             return true;
@@ -47,7 +47,7 @@ class EngineDB {
     }
 
     function getUser($email) {
-        $sql = "SELECT * FROM users WHERE email = '$email'";
+        $sql = "SELECT * FROM entity_user WHERE email = '$email'";
         $result = $this->db->query($sql);
         if ($result->num_rows > 0) {
             return $result->fetch_assoc();
@@ -57,7 +57,7 @@ class EngineDB {
     }
 
     function addUser($email, $password, $isAdmin) {
-        $sql = "INSERT INTO users (email, password, isAdmin) VALUES ('$email', '$password', $isAdmin)";
+        $sql = "INSERT INTO entity_user (email, password, isAdmin) VALUES ('$email', '$password', $isAdmin)";
         if ($this->db->query($sql) === TRUE) {
             return true;
         } else {
@@ -66,7 +66,7 @@ class EngineDB {
     }
 
     function updateUser($email, $password) {
-        $sql = "UPDATE users SET password = '$password' WHERE email = '$email'";
+        $sql = "UPDATE entity_user SET password = '$password' WHERE email = '$email'";
         if ($this->db->query($sql) === TRUE) {
             return true;
         } else {
@@ -75,7 +75,7 @@ class EngineDB {
     }
 
     function deleteUserById($user_id) {
-        $sql = "DELETE FROM users WHERE user_id = $user_id";
+        $sql = "DELETE FROM entity_user WHERE user_id = $user_id";
         if ($this->db->query($sql) === TRUE) {
             return true;
         } else {
@@ -84,7 +84,7 @@ class EngineDB {
     }
 
     function deleteUserByEmail($email) {
-        $sql = "DELETE FROM users WHERE email = '$email'";
+        $sql = "DELETE FROM entity_user WHERE email = '$email'";
         if ($this->db->query($sql) === TRUE) {
             return true;
         } else {
@@ -93,7 +93,7 @@ class EngineDB {
     }
 
     function getAllUsers() {
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT * FROM entity_users";
         $result = $this->db->query($sql);
         if ($result->num_rows > 0) {
             $users = array();
@@ -105,4 +105,4 @@ class EngineDB {
             return null;
         }
     }
-
+};
