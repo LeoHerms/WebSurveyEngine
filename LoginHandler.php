@@ -16,14 +16,14 @@ $userdata = $store_db->getUser($email);
 $store_db->disconnect();
 
 
-if (!($userdata["email"] == $email && password_verify($password, $userdata["password"]))) {
-    $_SESSION["login_error"] = "Invalid email or password. DEBUG: email: $email, password: $password, email in db: " . $userdata["email"] . ", password in db: " . $userdata["password"];
+if (!($userdata["EMAIL"] == $email && password_verify($password, $userdata["PASSWORD"]))) {
+    $_SESSION["login_error"] = "Invalid email or password. DEBUG: email: $email, password: $password, email in db: " . $userdata["EMAIL"] . ", password in db: " . $userdata["PASSWORD"];
     header("Location: Home.php");
     exit;
 }
 
 // If user is an admin, redirect to admin.php
-if ($userdata["is_admin"] == 1) {
+if ($userdata["IS_ADMIN"] == 1) {
     $_SESSION["user_email"] = $email; // Store user email in session for further use
     header("Location: Admin.php");
     exit;

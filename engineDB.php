@@ -47,13 +47,14 @@ class EngineDB {
     }
 
     function getUser($email) {
-        $sql = "SELECT * FROM entity_user WHERE email = '$email'";
-        $result = $this->db->query($sql);
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
-        } else {
-            return null;
-        }
+        $query = "SELECT `id_user` AS `ID_USER`, `email` AS `EMAIL`, `password` AS `PASSWORD`, `is_admin` AS `IS_ADMIN` FROM `entity_user` WHERE `email` = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+        return $user;
     }
 
     function addUser($email, $password, $isAdmin) {
