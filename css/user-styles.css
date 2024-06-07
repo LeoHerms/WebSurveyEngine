@@ -63,3 +63,22 @@
 td {
     border: 1px solid black;
 }
+
+input[type="email"],
+input[type="password"] {
+    margin: 5px 0;
+    padding: 5px;
+    width: 200px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}

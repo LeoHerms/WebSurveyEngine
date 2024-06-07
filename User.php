@@ -10,6 +10,9 @@ switch ($action) {
     case 'view_account':
         header('Location: viewAccount.php');
         exit;
+    case 'update_account':
+        header('Location: updateAccount.php');
+        exit;
     case 'exit':
         session_destroy();
         header('Location: Home.php');
@@ -33,6 +36,7 @@ switch ($action) {
         <form action="User.php" method="post">
             <button type="submit" name="action" value="view_surveys">View Surveys</button>
             <button type="submit" name="action" value="view_account">View Account</button>
+            <button type="submit" name="action" value="update_account">Update Account</button>
             <button type="submit" name="action" value="exit">Exit</button>
         </form>
     </div>

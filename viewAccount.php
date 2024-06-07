@@ -14,9 +14,9 @@ $store_db->connect();
 
 // Retrieve user information from the database
 $user_email = $_SESSION['user_email'];
-echo '<script>alert("' . $_SESSION['user_email'] . '");</script>';
+// echo '<script>alert("' . $_SESSION['user_email'] . '");</script>';
 $users = $store_db->getUser($user_email);
-echo '<script>alert("' . $users['EMAIL'] . $users['PASSWORD'] . '");</script>';
+// echo '<script>alert("' . $users['EMAIL'] . $users['PASSWORD'] . '");</script>';
 
 $store_db->disconnect();
 ?>
@@ -34,6 +34,7 @@ $store_db->disconnect();
         <form action="User.php" method="post">
             <button type="submit" name="action" value="view_surveys">View Surveys</button>
             <button type="submit" name="action" value="view_account">View Account</button>
+            <button type="submit" name="action" value="update_account">Update Account</button>
             <button type="submit" name="action" value="exit">Exit</button>
         </form>
     </div>
@@ -50,7 +51,7 @@ $store_db->disconnect();
             <tbody>
                 <tr>
                     <td><?php echo htmlspecialchars($users['EMAIL']); ?></td>
-                    <td><?php echo htmlspecialchars($users['PASSWORD']); ?></td>
+                    <td><?php echo htmlspecialchars($_SESSION['password']); ?></td>
                 </tr>
             <br><br>
             </tbody>
