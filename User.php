@@ -1,6 +1,23 @@
 <?php
 session_start();
 
+$action = $_POST['action'] ?? '';
+
+switch ($action) {
+    case 'view_surveys':
+        header('Location: viewUserSurveys.php');
+        exit;
+    case 'view_account':
+        header('Location: viewAccount.php');
+        exit;
+    case 'exit':
+        session_destroy();
+        header('Location: Home.php');
+        exit;
+    default:
+        break;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -13,10 +30,10 @@ session_start();
 <body>
     
     <div class="sidenav">
-        <form id="userForm" method="post" target="iframe_content">
-            <button type="button" onclick="submitForm('viewSurveys')">View Surveys</button>
-            <button type="button" onclick="submitForm('viewAccount')">View Account</button>
-            <button type="button" onclick="submitForm('Exit')">Exit</button>
+        <form action="User.php" method="post">
+            <button type="submit" name="action" value="view_surveys">View Surveys</button>
+            <button type="submit" name="action" value="view_account">View Account</button>
+            <button type="submit" name="action" value="exit">Exit</button>
         </form>
     </div>
 
@@ -25,17 +42,5 @@ session_start();
         <p>Select from options on left!</p>
     </div>    
 
-    <iframe name="iframe_content" frameborder="0"></iframe>
-
-    <script>
-        function submitForm(action) {
-            if (action === 'Exit') {
-                window.location.href = 'Home.php';
-            } else {
-                document.getElementById('userForm').action = action + '.php';
-                document.getElementById('userForm').submit();
-            }
-        }
-    </script>
 </body>
 </html>
