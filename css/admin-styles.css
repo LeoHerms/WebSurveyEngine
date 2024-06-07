@@ -50,3 +50,15 @@ body {
     margin-left: 200px;
     padding-left: 20px;
 }
+
+table {
+    width: 95% !important;
+    border-collapse: collapse;
+    background-color: #5BB2CE;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid black /*none important;*/
+}
+
+td {
+    border: 1px solid black;
+}

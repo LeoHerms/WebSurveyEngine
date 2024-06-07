@@ -49,8 +49,8 @@
         ?>
     </div>
 
-    <div class="gif-container">
+    <!-- <div class="gif-container">
             <img src="images/dawg.gif" alt="Moving Dawg" class="moving-dawg">
-    </div>
+    </div> -->
 </body>
 </html>
