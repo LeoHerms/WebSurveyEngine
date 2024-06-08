@@ -13,7 +13,7 @@ $store_db = new EngineDB();
 $store_db->connect();
 
 // Retrieve all users from the database
-$query = "SELECT name, description FROM entity_survey";
+$query = "SELECT id_survey, name, description FROM entity_survey";      // Changed to have id_survey
 $result = $store_db->getDb()->query($query);
 
 $users = [];
@@ -55,6 +55,7 @@ $store_db->disconnect();
                     <tr>
                         <th>Title</th>
                         <th>Description</th> 
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +63,12 @@ $store_db->disconnect();
                         <tr>
                             <td><?php echo htmlspecialchars($user['name']); ?></td>
                             <td><?php echo htmlspecialchars($user['description']); ?></td>
+                            <td style="text-align: center;">
+                                <form class="deleteSurvey" action="deleteSurvey.php" method="post">
+                                    <input type="hidden" name="survey_id" value="<?php echo $user['id_survey']; ?>">
+                                    <button type="submit">Delete survey</button>
+                                </form>
+                            </td>
                         </tr> 
                     <?php endforeach; ?>
                 <br><br>
