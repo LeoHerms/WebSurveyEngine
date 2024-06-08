@@ -7,12 +7,17 @@ $action = $_POST['action'] ?? '';
 switch ($action) {
     case 'view_users':
         header('Location: viewUsers.php');
+        // Next to each user, add a button to view their survey and assign them a survey
+        // (To assign them a survey, add an entry to the xref_survey_question_answer_user table with an empty answer)
         exit;
     case 'view_surveys':
         header('Location: viewSurveys.php');
+        // In viewSurveys.php, add option at the very bottom to add a survey
         exit;
     case 'view_survey_results':
-        header('Location: viewSurveyResults.php');
+        header('Location: viewUserSurveyResults.php');
+        // List the questions by survey and list the total number of responses for each question's answer
+        // Maybe add some statistics
         exit;
     case 'view_questions':
         header('Location: viewQuestions.php');
