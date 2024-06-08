@@ -64,10 +64,12 @@ $store_db->disconnect();
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
                             <td><?php echo $user['is_admin'] ? 'Yes' : 'No'; ?></td>
                             <td style="text-align: center;">
-                                <form class="assignSurvey" action="assignSurvey.php" method="post">
-                                    <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>">
-                                    <button type="submit">Assign surveys</button>
-                                </form>
+                                <?php if (!$user['is_admin']): ?>
+                                    <form class="assignSurvey" action="assignSurvey.php" method="post">
+                                        <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>">
+                                        <button type="submit">Assign surveys</button>
+                                    </form>
+                                <?php endif; ?>
                             </td>
                         </tr> 
                     <?php endforeach; ?>
