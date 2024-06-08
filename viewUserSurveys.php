@@ -66,7 +66,8 @@ $store_db->disconnect();
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Description</th> 
+                        <th>Description</th>
+                        <th>Take Survey</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -76,10 +77,10 @@ $store_db->disconnect();
                                 <tr>
                                     <td><?php echo htmlspecialchars($survey['name']); ?></td>
                                     <td><?php echo htmlspecialchars($survey['description']); ?></td>
-                                    <td>
+                                    <td style="text-align: center;">
                                         <form class="takeSurvey" action="takeSurvey.php" method="post">
                                             <input type="hidden" name="survey_id" value="<?php echo $survey['id_survey']; ?>">
-                                            <button type="submit">Take Survey</button>
+                                            <button type="submit">Take this survey</button>
                                         </form>
                                     </td>
                                 </tr>
