@@ -59,7 +59,8 @@ if ($flag) {
         // Do one update for the original entry that had an empty answer
         if ($counter == 0) {
             $answer = $_POST[$question['id_question']] ?? '';
-            $query = "UPDATE xref_survey_question_answer_user SET id_answer = '$answer' WHERE id_survey = '$survey_id' AND id_question = '" . $question['id_question'] . "' AND id_user = '$user_id'";
+            $query = "UPDATE xref_survey_question_answer_user SET id_answer = '$answer', id_question = '" . $question['id_question'] . "' WHERE id_survey = '$survey_id' AND id_user = '$user_id'";
+            //$query = "UPDATE xref_survey_question_answer_user SET id_answer = '$answer' WHERE id_survey = '$survey_id' AND id_question = '" . $question['id_question'] . "' AND id_user = '$user_id'";
             $store_db->getDb()->query($query);
             $counter++;
         }
