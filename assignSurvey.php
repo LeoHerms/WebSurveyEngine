@@ -12,11 +12,14 @@ include "engineDB.php";
 $store_db = new EngineDB();
 $store_db->connect();
 
-$userID = $_POST['user_id'];
+$userID = isset($_POST['user_id']) ? $_POST['user_id'] : $_SESSION['assignedUserID'];
 // Find user email from the database query
 $query = "SELECT email FROM entity_user WHERE id_user = $userID";
 $result = $store_db->getDb()->query($query);
 $thisUserEmail = $result->fetch_assoc()['email'];
+
+// This is always changed when entering assignSurvey
+$_SESSION['assignedUserID'] = $userID;
 
 
 // Retrieve all the surveys from the database
