@@ -67,6 +67,11 @@ $store_db->disconnect();
                 <br><br>
                 </tbody>
             </table>
+            <br>
+            <form action="createSurvey.php" method="post">
+                <input type="hidden" name="action" value="create_survey">
+                <button type="submit">Create Survey</button>
+            </form>
         <?php endif; ?>
     </div>    
 
