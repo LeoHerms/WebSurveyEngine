@@ -53,11 +53,22 @@ if ($flag) {
         }
     }
 
+    $counter = 0;
     // Insert the questions and answers into the xref_survey_question_answer_user table
     foreach ($questions as $question) {
-        $answer = $_POST[$question['id_question']] ?? '';
-        $query = "INSERT INTO xref_survey_question_answer_user (id_survey, id_question, id_answer, id_user) VALUES ('$survey_id', '" . $question['id_question'] . "', '$answer', '$user_id')";
-        $store_db->getDb()->query($query);
+        // Do one update for the original entry that had an empty answer
+        if ($counter == 0) {
+            $answer = $_POST[$question['id_question']] ?? '';
+            $query = "UPDATE xref_survey_question_answer_user SET id_answer = '$answer' WHERE id_survey = '$survey_id' AND id_question = '" . $question['id_question'] . "' AND id_user = '$user_id'";
+            $store_db->getDb()->query($query);
+            $counter++;
+        }
+        else {
+            $answer = $_POST[$question['id_question']] ?? '';
+            $query = "INSERT INTO xref_survey_question_answer_user (id_survey, id_question, id_answer, id_user) VALUES ('$survey_id', '" . $question['id_question'] . "', '$answer', '$user_id')";
+            $store_db->getDb()->query($query);
+        }
+
     }
 } else {
     // Update
