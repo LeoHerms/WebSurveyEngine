@@ -76,7 +76,7 @@ $store_db->disconnect();
                                 <?php if (!$user['is_admin']): ?>
                                     <form class="deleteUser" action="deleteUser.php" method="post">
                                         <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>">
-                                        <button type="submit">Delete User</button>
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')">Delete User</button>
                                     </form>
                                 <?php endif; ?>
                             </td>

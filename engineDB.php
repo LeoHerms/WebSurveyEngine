@@ -88,9 +88,16 @@ class EngineDB {
     }
 
     function deleteUserById($user_id) {
-        $sql = "DELETE FROM entity_user WHERE user_id = $user_id";
+        // Delete from the entity_user table
+        $sql = "DELETE FROM entity_user WHERE id_user = $user_id";
         if ($this->db->query($sql) === TRUE) {
-            return true;
+            // Now delete from the xref_survey_question_answer_user table
+            $sql = "DELETE FROM xref_survey_question_answer_user WHERE id_user = $user_id";
+            if ($this->db->query($sql) === TRUE) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
