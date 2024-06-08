@@ -49,6 +49,10 @@ $store_db->disconnect();
         <h1>All Surveys</h1>
         <?php if (empty($users)): ?>
             <p>No surveys found.</p>
+            <form action="createSurvey.php" method="post">
+                <input type="hidden" name="action" value="create_survey">
+                <button type="submit">Create Survey</button>
+            </form>
         <?php else: ?>
             <table>
                 <thead>
@@ -66,7 +70,7 @@ $store_db->disconnect();
                             <td style="text-align: center;">
                                 <form class="deleteSurvey" action="deleteSurvey.php" method="post">
                                     <input type="hidden" name="survey_id" value="<?php echo $user['id_survey']; ?>">
-                                    <button type="submit">Delete survey</button>
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this survey?')">Delete Survey</button>
                                 </form>
                             </td>
                         </tr> 

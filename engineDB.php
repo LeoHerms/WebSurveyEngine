@@ -125,4 +125,217 @@ class EngineDB {
             return null;
         }
     }
+
+
+    function deleteSurveyById($survey_id) {
+        // Start a transaction to ensure atomicity
+        $this->db->begin_transaction();
+    
+        try {
+            // Delete entries from xref_survey_question_answer_user
+            $sql = "DELETE FROM xref_survey_question_answer_user WHERE id_survey = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $survey_id);
+            if (!$stmt->execute()) {
+                throw new Exception("Failed to delete from xref_survey_question_answer_user");
+            }
+            $stmt->close();
+    
+            // Get all questions related to the survey
+            $sql = "SELECT id_question FROM xref_survey_question WHERE id_survey = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $survey_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $questions = $result->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+    
+            // Prepare the statement for getting answers
+            $sql = "SELECT id_answer FROM xref_question_answer WHERE id_question = ?";
+            $stmt_get_answers = $this->db->prepare($sql);
+    
+            // Prepare the statement for deleting answers
+            $sql_delete_answer = "DELETE FROM entity_answer WHERE id_answer = ?";
+            $stmt_delete_answer = $this->db->prepare($sql_delete_answer);
+    
+            // Loop through each question
+            foreach ($questions as $question) {
+                $question_id = $question['id_question'];
+    
+                // Get all answers related to the question
+                $stmt_get_answers->bind_param("i", $question_id);
+                $stmt_get_answers->execute();
+                $result = $stmt_get_answers->get_result();
+                $answers = $result->fetch_all(MYSQLI_ASSOC);
+    
+                // Delete each answer
+                foreach ($answers as $answer) {
+                    $answer_id = $answer['id_answer'];
+                    $stmt_delete_answer->bind_param("i", $answer_id);
+                    if (!$stmt_delete_answer->execute()) {
+                        throw new Exception("Failed to delete from entity_answer");
+                    }
+                }
+            }
+    
+            // Close prepared statements for answers
+            $stmt_get_answers->close();
+            $stmt_delete_answer->close();
+    
+            // Delete cross references in the xref_question_answer table for these questions
+            $sql = "DELETE FROM xref_question_answer WHERE id_question = ?";
+            $stmt = $this->db->prepare($sql);
+            foreach ($questions as $question) {
+                $question_id = $question['id_question'];
+                $stmt->bind_param("i", $question_id);
+                if (!$stmt->execute()) {
+                    throw new Exception("Failed to delete from xref_question_answer");
+                }
+            }
+            $stmt->close();
+    
+            // Delete the questions in the entity_question table
+            $sql = "DELETE FROM entity_question WHERE id_question = ?";
+            $stmt = $this->db->prepare($sql);
+            foreach ($questions as $question) {
+                $question_id = $question['id_question'];
+                $stmt->bind_param("i", $question_id);
+                if (!$stmt->execute()) {
+                    throw new Exception("Failed to delete from entity_question");
+                }
+            }
+            $stmt->close();
+    
+            // Delete cross references in the xref_survey_question table
+            $sql = "DELETE FROM xref_survey_question WHERE id_survey = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $survey_id);
+            if (!$stmt->execute()) {
+                throw new Exception("Failed to delete from xref_survey_question");
+            }
+            $stmt->close();
+    
+            // Finally, delete the survey
+            $sql = "DELETE FROM entity_survey WHERE id_survey = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $survey_id);
+            if (!$stmt->execute()) {
+                throw new Exception("Failed to delete from entity_survey");
+            }
+            $stmt->close();
+    
+            // Commit the transaction
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            // Rollback the transaction if an error occurs
+            $this->db->rollback();
+            return false;
+        }
+    }
+    
+
+    function none($survey_id) {
+        // Need to first delete all the answers for the survey
+        // Also delete the cross references in the xref_question_answer table
+
+        // Then delete the questions for those answers
+        // Also delete the cross references in the xref_survey_question table
+
+        // Then delete the survey
+        // Then delete the entries in teh xref table for survey_question_answer_user
+
+        // Delete entries from xref_survey_question_answer_user
+        $sql = "DELETE FROM xref_survey_question_answer_user WHERE id_survey = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $survey_id);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
+
+        // Get all questions related to the survey
+        $sql = "SELECT id_question FROM xref_survey_question WHERE id_survey = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $survey_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $questions = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        // Get all the answers related to each of the questions in the survey
+        $sql = "SELECT id_answer FROM xref_question_answer WHERE id_question = ?";  
+        foreach ($questions as $question) {
+            $question_id = $question['id_question'];
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $question_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $answers = $result->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+
+            // Delete the answers
+            $sql = "DELETE FROM entity_answer WHERE id_answer = ?";
+            foreach ($answers as $answer) {
+                $answer_id = $answer['id_answer'];
+                $stmt = $this->db->prepare($sql);
+                $stmt->bind_param("i", $answer_id);
+                if (!$stmt->execute()) {
+                    $stmt->close();
+                    return false;
+                }
+                $stmt->close();
+            }
+        }
+
+        // Delete cross references in the xref_question_answer table for these questions
+        foreach ($questions as $question) {
+            $question_id = $question['id_question'];
+            $sql = "DELETE FROM xref_question_answer WHERE id_question = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $question_id);
+            if (!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+        }
+
+        // Delete the questions in the entity_question table
+        $sql = "DELETE FROM entity_question WHERE id_question = ?";
+        foreach ($questions as $question) {
+            $question_id = $question['id_question'];
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $question_id);
+            if (!$stmt->execute()) {
+                $stmt->close();
+                return false;
+            }
+            $stmt->close();
+        }
+
+        // Delete cross references in the xref_survey_question table
+        $sql = "DELETE FROM xref_survey_question WHERE id_survey = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $survey_id);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
+
+
+        // Finally, delete the survey
+        $sql = "DELETE FROM entity_survey WHERE id_survey = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $survey_id);
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
+
+        return true;
+    }
 };
