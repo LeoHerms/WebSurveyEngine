@@ -13,7 +13,7 @@ $store_db = new EngineDB();
 $store_db->connect();
 
 // Retrieve all users from the database
-$query = "SELECT email, is_admin FROM entity_user";
+$query = "SELECT id_user, email, is_admin FROM entity_user";
 $result = $store_db->getDb()->query($query);
 
 $users = [];
@@ -55,6 +55,7 @@ $store_db->disconnect();
                     <tr>
                         <th>Email</th>
                         <th>Admin</th> 
+                        <th>Assign</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,9 +63,15 @@ $store_db->disconnect();
                         <tr>
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
                             <td><?php echo $user['is_admin'] ? 'Yes' : 'No'; ?></td>
+                            <td style="text-align: center;">
+                                <form class="assignSurvey" action="assignSurvey.php" method="post">
+                                    <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>">
+                                    <button type="submit">Assign surveys</button>
+                                </form>
+                            </td>
                         </tr> 
                     <?php endforeach; ?>
-                <br><br>
+                
                 </tbody>
             </table>
         <?php endif; ?>
