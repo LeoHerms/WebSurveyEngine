@@ -9,6 +9,7 @@ switch ($action) {
         header('Location: viewUsers.php');
         // Next to each user, add a button to view their survey and assign them a survey
         // (To assign them a survey, add an entry to the xref_survey_question_answer_user table with an empty answer)
+        // Add a button to delete the user (Next to the assign survey button)
         exit;
     case 'view_surveys':
         header('Location: viewSurveys.php');
