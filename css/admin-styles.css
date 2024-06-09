@@ -86,3 +86,18 @@ td {
     cursor: pointer;
     margin: 0 auto;
 }
+
+.editUser {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.updateUser {
+    padding: 10px 20px;
+    background-color: lightgreen;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto;
+}

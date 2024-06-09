@@ -56,6 +56,7 @@ $store_db->disconnect();
                         <th>Email</th>
                         <th>Admin</th> 
                         <th>Assign</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -69,6 +70,14 @@ $store_db->disconnect();
                                     <form class="assignSurvey" action="assignSurvey.php" method="post">
                                         <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>">
                                         <button type="submit">Assign surveys</button>
+                                    </form>
+                                <?php endif; ?>
+                            </td>
+                            <td style="text-align: center;">
+                                <?php if (!$user['is_admin']): ?>
+                                    <form class="editUser" action="editUser.php" method="post">
+                                        <input type="hidden" name="user_id" value="<?php echo $user['id_user']; ?>">
+                                        <button type="submit">Edit User</button>
                                     </form>
                                 <?php endif; ?>
                             </td>
